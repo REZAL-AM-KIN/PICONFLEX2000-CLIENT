@@ -49,7 +49,7 @@
 - Accéder au fichier .profile  
 > sudo nano /home/pi/.profile  
 - Remplacer le contenu par:  
-> sudo python3 /home/pi/PICONFLEX2000/client/boot.py  
+> sudo python3 /home/pi/PICONFLEX2000-CLIENT/boot.py  
 ## Branchement des composants  
 Les coordonnées (X:Y) des PINs fonctionnent de la manière suivante:  
 X est le numéro de la rangée  
