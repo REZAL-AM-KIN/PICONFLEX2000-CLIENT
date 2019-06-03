@@ -80,13 +80,6 @@ while True:
         break
     hint(STRING_montant(argent)+" -> "+STRING_montant(newMontant),3)
     hint("NE PAS RETIRER CARTE",4)
-    if not(RFID_carteCheck()) and montant==newMontant:
-        break
-    if (UID!=RFID_getUID()):
-        hint("Triche PG",2)
-        hint("Changement de carte",3)
-        DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche PG",str(UID)+" - "+STRING_montant(montant)))
-        break
     DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addArgent(UID,montant))
     DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addTransaction(produit,nombre,setting.numeroBox,UID,montant,reference))
     hint("Credit: "+STRING_montant(newMontant),2)
