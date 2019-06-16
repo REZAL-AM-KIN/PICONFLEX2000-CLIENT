@@ -21,9 +21,9 @@ while True:
             SQL_EXECUTE(QUERRY_addCarte(UID))
         if argent!=argentSQL:
             hint("RESET ARGENT RFID",4)
-            RFID_setArgent(argentSQL)
             argent=argentSQL
-        if argentSQL<0:
+            RFID_setArgent(argent)
+        if argent<0:
             hint("Triche BDD",2)
             DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche BDD",str(UID)+" - "+STRING_montant(argent)))
             break
@@ -33,6 +33,8 @@ while True:
         if hashUID!=int(CRYPT_hashage(UID)):
             hint("RESET HASH UID",4)
             RFID_write(config.blockHashUID,str(int(CRYPT_hashage(UID))))
+        if hashArgent!=int(CRYPT_hashage(argent)):
+            RFID_setArgent(argent)
     else:
         if codeCarte!=int(CRYPT_hashage(config.codeGuinche)):
             hint("Carte perimee",3)
@@ -53,10 +55,6 @@ while True:
         if hashArgent!=int(CRYPT_hashage(argent)):
             hint("PROBLEME MONTANT",2)
             DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche montant",str(UID)+" - "+STRING_montant(argent)))
-            break
-        if argent>config.maxMontant:
-            hint("PRBLEME MONTANT MAX",2)
-            DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche MONTANT_MAX",str(UID)+" - "+STRING_montant(argent)))
             break
     if setting.nomBox[0]=="C":
         montant=MENU_getMontant(argent)
@@ -82,6 +80,6 @@ while True:
     hint("NE PAS RETIRER CARTE",4)
     DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addArgent(UID,montant))
     DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addTransaction(produit,nombre,setting.numeroBox,UID,montant,reference))
-    hint("Credit: "+STRING_montant(newMontant),2)
     RFID_setArgent(argent+montant)
+    hint("Credit: "+STRING_montant(newMontant),2)
     break

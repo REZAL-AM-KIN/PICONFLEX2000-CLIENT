@@ -60,23 +60,3 @@ La première ligne se trouve à l'opposé des ports USB
 (1:1/2:11/2:3/X:X/1:11/1:10/1:12/2:12)<=>(VCC/RST/GND/X/MISO/MOST/SCK/SDA)  
 ### Branchements de l'ecran LCD HD44780 2004A
 (1:3/1:2/2:2/1:5)<=>(SCL/SDA/VCC/GND)  
-# Configuration de A à Z serveurs
-### Serveur DHCP
-### Serveur BDD
-#### Installation mysql  
-> sudo apt install mysql-server php-mysql  
-> sudo mysql --user=root  
-#### Creation d’un utilisateur avec tout les droit  
-> DROP USER 'root'@'localhost';  
-> CREATE USER 'XXX'@'%' IDENTIFIED BY 'YYY';  
-> GRANT ALL PRIVILEGES ON . TO 'XXX'@'%’ WITH GRANT OPTION;  
-(Lors de vos prochaine connections, vous pourrez donc utilisez la commande)  
-> mysql --user=XXX --password=YYY  
-#### Installation phpmyadmin  
-> sudo apt install phpmyadmin  
-(Selectionner php puis no)  
-> sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin  
-### Serveur WEB
-### Serveur MAJ
-#### Installation Fabric  
-> pip3 install fabric3  
