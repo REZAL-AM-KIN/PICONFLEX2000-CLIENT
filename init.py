@@ -1,39 +1,40 @@
 print("Demarrage 'init.py'")
-MENU_clear()
+MENU_clear() #Nettoie l'écran
 
-DATA_setVariable("rezalOn",bool(REZAL_pingServeur()))
-DATA_setVariable("rezalNet",bool(REZAL_pingInternet()))
-DATA_setVariable("version",REZAL_getVersion())
-DATA_setVariable("IP",REZAL_getIP())
-DATA_setVariable("MAC",REZAL_getMAC())
+DATA_setVariable("rezalOn",bool(REZAL_pingServeur())) #Ping le serveur et enregistre le résultat
+DATA_setVariable("rezalNet",bool(REZAL_pingInternet())) #Ping le DNS désiré et enrigistre le résultat
+DATA_setVariable("version",REZAL_getVersion()) #Calcul la version du script et enregistre le résultat
+DATA_setVariable("IP",REZAL_getIP()) #Récupère son addresse IP sur le réseau et enregistre le résultat
+DATA_setVariable("MAC",REZAL_getMAC()) #Récupère l'addresse MAC de la carte réseau Ethernet et enregistre le résultat
 
-if setting.rezalOn:
-    SQL_EXECUTE(QUERRY_setOnline(setting.IP,1))
-    SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox))
-    SQL_EXECUTE(QUERRY_setVersion(setting.version,setting.numeroBox))
-    SQL_EXECUTE(QUERRY_setIP(setting.IP,setting.numeroBox))
-    
-    DATA_setVariable("rezalMode",bool(SQL_SELECT(QUERRY_getMode(setting.numeroBox))[0][0]))
-    DATA_setVariable("nomBox",SQL_SELECT(QUERRY_getNomBox(setting.numeroBox))[0][0])
-    DATA_setVariable("produits",SQL_getProduits(setting.numeroBox))
-
-elif setting.rezalMode:
-    MENU_getCode(config.codeOffline,"Code Offline")
-    DATA_setVariable("rezalMode",False)
-
-hint(setting.IP,1)
-hint(setting.MAC,2)
-if   (setting.nomBox[0] in ["c","C"]):
+if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
+    SQL_EXECUTE(QUERRY_setOnline(setting.IP,1)) #Se déclare Online auprès de la BDD
+    SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox)) #Donne sa MAC à la BDD
+    SQL_EXECUTE(QUERRY_setVersion(setting.version,setting.numeroBox)) #Donne sa version à la BDD
+    SQL_EXECUTE(QUERRY_setIP(setting.IP,setting.numeroBox)) #Donne son IP à la BDD
+    #Si il y a un bug dans la ligne suivante, la box n'est pas ajoutée dans la BDD
+    #Si il y a un bug dans la deuxième ligne, la box n'a pas de comptoir associée
+    #Si il y a un bug dans la troisième ligne, la comptoir n'as pas de produits associés
+    DATA_setVariable("rezalMode",bool(SQL_SELECT(QUERRY_getMode(setting.numeroBox))[0][0])) #Récupère le mode REZAL de la BDD (Variable empêchant à la box de communiquer avec le serveur)
+    DATA_setVariable("nomBox",SQL_SELECT(QUERRY_getNomBox(setting.numeroBox))[0][0]) #Récupère le nom du comptoir dans la BDD 
+    DATA_setVariable("produits",SQL_getProduits(setting.numeroBox)) #Récupère les produits de la box
+elif setting.rezalMode: #Si le serveur n'a pas répondu au ping et que le mode hors ligne n'est pas activé:
+    MENU_getCode(config.codeOffline,"Code Offline") #Demande du code Offline pour permettre à la box d'effectuer des actions sans le serveur (Les requêtes de modification de la BDD seront sauvegardées et synchroniser à la prochaine connection)
+    DATA_setVariable("rezalMode",False) #Enregistrement du passage en mode hors ligne de la box
+hint(setting.IP,1) #Affichage de L'IP de la box à la première ligne
+hint(setting.MAC,2) #Affichage de l'addresse MAC de la box à la deuxième ligne
+#Vérification de la première lettre des noms de comptoir et demande du code associé (Il est possible de ne taper que le code Guinche quand un mot de passe est demandé)
+if   setting.nomBox[0]=="C":
     MENU_getCode(config.codeCaisse,"Code Caisse")
-elif (setting.nomBox[0] in ["k","K"]):
+elif setting.nomBox[0]=="K":
     MENU_getCode(config.codeKve,"Code Kve")
-elif (setting.nomBox[0] in ["o","O"]):
+elif setting.nomBox[0]=="O":
     MENU_getCode(config.codeOenols,"Code Oenols")
-elif (setting.nomBox[0] in ["g","G"]):
+elif setting.nomBox[0]=="G":
     MENU_getCode(config.codeGazole,"Code Gazole")
-elif (setting.nomBox[0] in ["b","B"]):
+elif setting.nomBox[0]=="B":
     MENU_getCode(config.codeBar,"Code Bar")
-elif (setting.nomBox[0] in ["n","N"]):
+elif setting.nomBox[0]=="N":
     MENU_getCode(config.codeNourriture,"Code Nourriture")
-else:
-    REZAL_exit()
+else: #La premère lettre du nom de la box de correspond pas aux attentes du script, le script se ferme
+    REZAL_exit() #Arret du script

@@ -29,7 +29,7 @@
 > cd ../  
 > sudo rm -r SPI-Py  
 > git clone https://github.com/REZALKIN/PICONFLEX2000.git  
-## Paramétrage du programme  
+## Paramétrage du script  
 ### Activation NumLock au démarrage (Permet d'utiliser le pavé numérique)  
 > sudo nano /etc/rc.local  
 - Remplacer le contenu par:

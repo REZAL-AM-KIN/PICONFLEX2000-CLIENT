@@ -146,6 +146,7 @@ def hint(string,ligne):
     print(str(ligne)+" "+string)
     return
 
+#Si tu retire ces lignes jeune conscrit, je viendrai te voir...
 hint("PICONFLEX2000",1)
 hint("139 | 105-132",2)
 hint("102 | 56-150 | 53",3)
