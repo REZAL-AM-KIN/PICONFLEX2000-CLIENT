@@ -1,9 +1,12 @@
 print("Demarrage 'loop.py'")
 while True:
-    if setting.rezalMode:
+    if setting.rezalMode and setting.rezalOn: #Si la box a deja ping le serveur:
         DATA_setVariable("rezalOn",bool(REZAL_pingServeur())) #Ping du serveur pour check la deconnection éventuelle
-    else:
+    else: #Si la box est en rezal mode False, le rezalOn est False aussi
         DATA_setVariable("rezalOn",False)
+        if setting.rezalMode:
+            hint("Perte de la connexion",4)
+            REZAL_restart()
     if setting.rezalOn:
         REZAL_synchQUERRYToSQL()
     RFID_waitRetireCarte()
