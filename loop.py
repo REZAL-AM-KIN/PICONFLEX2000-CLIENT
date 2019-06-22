@@ -25,7 +25,7 @@ while True:
             RFID_setArgent(argent)
         if argent<0:
             hint("Triche BDD",2)
-            DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche BDD",str(UID)+" - "+STRING_montant(argent)))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche BDD",str(UID)+" - "+STRING_montant(argent)))
             break
         if codeCarte!=int(CRYPT_hashage(config.codeGuinche)):
             hint("RESET CODE GUINCHE",4)
@@ -47,14 +47,14 @@ while True:
             RFID_resetCarte()
             hashUID=int(CRYPT_hashage(UID))
             hashArgent!=int(CRYPT_hashage(argent))
-            DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addCarte(UID))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addCarte(UID))
         if hashUID!=int(CRYPT_hashage(UID)):
             hint("PROBLEME UID",2)
-            DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"TRICHE UID",str(UID)+" - "+STRING_montant(argent)))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"TRICHE UID",str(UID)+" - "+STRING_montant(argent)))
             break
         if hashArgent!=int(CRYPT_hashage(argent)):
             hint("PROBLEME MONTANT",2)
-            DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche montant",str(UID)+" - "+STRING_montant(argent)))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche montant",str(UID)+" - "+STRING_montant(argent)))
             break
     if setting.nomBox[0]=="C":
         montant=MENU_getMontant(argent)
@@ -78,8 +78,8 @@ while True:
         break
     hint(STRING_montant(argent)+" -> "+STRING_montant(newMontant),3)
     hint("NE PAS RETIRER CARTE",4)
-    DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addArgent(UID,montant))
-    DATA_add('/home/pi/PICONFLEX2000/log/LOG_QUERRY.txt',QUERRY_addTransaction(produit,nombre,setting.numeroBox,UID,montant,reference))
+    DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addArgent(UID,montant))
+    DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addTransaction(produit,nombre,setting.numeroBox,UID,montant,reference))
     RFID_setArgent(argent+montant)
     hint("Credit: "+STRING_montant(newMontant),2)
     break
