@@ -7,6 +7,9 @@ DATA_setVariable("version",REZAL_getVersion()) #Calcul la version du script et e
 DATA_setVariable("IP",REZAL_getIP()) #Récupère son addresse IP sur le réseau et enregistre le résultat
 DATA_setVariable("MAC",REZAL_getMAC()) #Récupère l'addresse MAC de la carte réseau Ethernet et enregistre le résultat
 
+hint(setting.IP,1) #Affichage de L'IP de la box à la première ligne
+hint(setting.MAC,2) #Affichage de l'addresse MAC de la box à la deuxième ligne
+
 if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
     SQL_EXECUTE(QUERRY_setOnline(setting.IP,1)) #Se déclare Online auprès de la BDD
     SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox)) #Donne sa MAC à la BDD
@@ -18,11 +21,9 @@ if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
     DATA_setVariable("rezalMode",bool(SQL_SELECT(QUERRY_getMode(setting.numeroBox))[0][0])) #Récupère le mode REZAL de la BDD (Variable empêchant à la box de communiquer avec le serveur)
     DATA_setVariable("nomBox",SQL_SELECT(QUERRY_getNomBox(setting.numeroBox))[0][0]) #Récupère le nom du comptoir dans la BDD 
     DATA_setVariable("produits",SQL_getProduits(setting.numeroBox)) #Récupère les produits de la box
-elif setting.rezalMode: #Si le serveur n'a pas répondu au ping et que le mode hors ligne n'est pas activé:
+else: #Si le serveur n'a pas répondu au ping:
     MENU_getCode(config.codeOffline,"Code Offline") #Demande du code Offline pour permettre à la box d'effectuer des actions sans le serveur (Les requêtes de modification de la BDD seront sauvegardées et synchroniser à la prochaine connection)
     DATA_setVariable("rezalMode",False) #Enregistrement du passage en mode hors ligne de la box
-hint(setting.IP,1) #Affichage de L'IP de la box à la première ligne
-hint(setting.MAC,2) #Affichage de l'addresse MAC de la box à la deuxième ligne
 #Vérification de la première lettre des noms de comptoir et demande du code associé (Il est possible de ne taper que le code Guinche quand un mot de passe est demandé)
 if   setting.nomBox[0]=="C":
     MENU_getCode(config.codeCaisse,"Code Caisse")
