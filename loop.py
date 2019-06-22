@@ -46,15 +46,15 @@ while True:
                 break
             RFID_resetCarte()
             hashUID=int(CRYPT_hashage(UID))
-            hashArgent!=int(CRYPT_hashage(argent))
+            hashArgent!=int(CRYPT_hashage(0))
             DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addCarte(UID))
         if hashUID!=int(CRYPT_hashage(UID)):
             hint("PROBLEME UID",2)
-            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"TRICHE UID",str(UID)+" - "+STRING_montant(argent)))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"TRICHE UID",str(UID)))
             break
         if hashArgent!=int(CRYPT_hashage(argent)):
             hint("PROBLEME MONTANT",2)
-            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche montant",str(UID)+" - "+STRING_montant(argent)))
+            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"Triche montant",str(UID)))
             break
     if setting.nomBox[0]=="C":
         montant=MENU_getMontant(argent)
