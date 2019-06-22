@@ -10,6 +10,9 @@ DATA_setVariable("MAC",REZAL_getMAC()) #Récupère l'addresse MAC de la carte r�
 hint(setting.IP,1) #Affichage de L'IP de la box à la première ligne
 hint(setting.MAC,2) #Affichage de l'addresse MAC de la box à la deuxième ligne
 
+if setting.numeroBox==0:
+    MENU_setNumeroBox()
+
 if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
     SQL_EXECUTE(QUERRY_setOnline(setting.IP,1)) #Se déclare Online auprès de la BDD
     SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox)) #Donne sa MAC à la BDD
