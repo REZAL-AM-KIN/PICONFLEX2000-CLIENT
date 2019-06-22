@@ -1,7 +1,7 @@
 print("Demarrage 'loop.py'")
 while True:
     if setting.rezalMode:
-        DATA_setVariable("rezalOn",bool(REZAL_pingServeur()))
+        DATA_setVariable("rezalOn",bool(REZAL_pingServeur())) #Ping du serveur pour check la deconnection éventuelle
     else:
         DATA_setVariable("rezalOn",False)
     if setting.rezalOn:
