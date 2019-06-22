@@ -6,12 +6,12 @@ hint(errortype,1)
 hint("",2)
 hint("",3)
 hint("",4)
+DATA_add("/home/pi/PICONFLEX2000-LOGS/LOG_ERROR.txt",error)
 if errortype in ["SystemExit","KeyboardInterrupt"]:
     hint("Systeme Interrompu",2)
-    hint("Le shell est a vous!",3)
-    hint("Prenez en soin",4)
+    hint("a distance",3)
+    hint("ne pas reboot!",4)
     REZAL_exit()
-DATA_add("/home/pi/PICONFLEX2000-LOGS/LOG_ERROR.txt",error)
 for i in range(len(errorList)):
     if i<=2:
         hint(errorList[i],i+2)
