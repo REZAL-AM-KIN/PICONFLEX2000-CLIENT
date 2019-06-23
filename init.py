@@ -13,8 +13,8 @@ if setting.numeroBox==0: #Si le numero de la box est 0 (comme après un git clon
         MENU_setLoginBDD() #Demande du Login BDD
         MENU_setMDPBDD() #Demande du MDP BDD
     else:
-    MENU_setNomBox() #Demande d'un nom de box
-    MENU_setIPServeur() #Demande de l'IP du serveur
+        MENU_setNomBox() #Demande d'un nom de box
+        MENU_setIPServeur() #Demande de l'IP du serveur
 if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
     SQL_EXECUTE(QUERRY_setOnline(setting.IP,1)) #Se déclare Online auprès de la BDD
     SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox)) #Donne sa MAC à la BDD
