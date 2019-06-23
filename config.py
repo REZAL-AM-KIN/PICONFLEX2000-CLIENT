@@ -28,11 +28,11 @@ class config: #Définition des variables reliée à l'objet config définissant 
 #Code permettant le passage en mode hors ligne de la box
     blockArgent         =5
 #Case RFID où sera mis le montant en clair
-    blockHashArgent     =6
+    blockHashArgent     =7
 #Case RIFD où est mis le hash de l'argent (Permet d'éviter la triche montant)
-    blockHashUID        =7          
+    blockHashUID        =8          
 #Case RFID où sera mis le hash de l'UID de la carte (Permet de vérifier que le contenue d'une carte n'a pas été copié sur une autre)
-    blockHashCodeGuinche=8          
+    blockHashCodeGuinche=10          
 #Case RFID où sera mis le hash du code guinche (vérifie si la carte est périmée)
     minMontant          =100        
 #Montant en centimes minimal à pouvoir mettre pendant une transaction
