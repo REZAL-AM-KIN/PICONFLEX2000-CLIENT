@@ -1,18 +1,20 @@
 print("Demarrage 'init.py'")
 MENU_clear() #Nettoie l'écran
-
 DATA_setVariable("rezalOn",bool(REZAL_pingServeur())) #Ping le serveur et enregistre le résultat
 DATA_setVariable("rezalNet",bool(REZAL_pingInternet())) #Ping le DNS désiré et enrigistre le résultat
 DATA_setVariable("version",REZAL_getVersion()) #Calcul la version du script et enregistre le résultat
 DATA_setVariable("IP",REZAL_getIP()) #Récupère son addresse IP sur le réseau et enregistre le résultat
 DATA_setVariable("MAC",REZAL_getMAC()) #Récupère l'addresse MAC de la carte réseau Ethernet et enregistre le résultat
-
 hint(setting.IP,1) #Affichage de L'IP de la box à la première ligne
 hint(setting.MAC,2) #Affichage de l'addresse MAC de la box à la deuxième ligne
-
-if setting.numeroBox==0:
-    MENU_setNumeroBox()
-
+if setting.numeroBox==0: #Si le numero de la box est 0 (comme après un git clone)
+    MENU_setNumeroBox() #Demande d'inscription d'un numéro de box
+    if setting.rezalOn: #Si une machine a répondu au ping de l'IP serveur
+        MENU_setLoginBDD() #Demande du Login BDD
+        MENU_setMDPBDD() #Demande du MDP BDD
+    else:
+    MENU_setNomBox() #Demande d'un nom de box
+    MENU_setIPServeur() #Demande de l'IP du serveur
 if setting.rezalOn: #Si la box à ping l'addresse IP déclarée du serveur:
     SQL_EXECUTE(QUERRY_setOnline(setting.IP,1)) #Se déclare Online auprès de la BDD
     SQL_EXECUTE(QUERRY_setMAC(setting.MAC,setting.numeroBox)) #Donne sa MAC à la BDD
@@ -41,4 +43,5 @@ elif setting.nomBox[0]=="B":
 elif setting.nomBox[0]=="N":
     MENU_getCode(config.codeNourriture,"Code Nourriture")
 else: #La premère lettre du nom de la box de correspond pas aux attentes du script, le script se ferme
-    REZAL_exit() #Arret du script
+    MENU_setNomBox() #Demande d'un nom de box
+    REZAL_restart() #Redemarrage système
