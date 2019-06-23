@@ -92,4 +92,3 @@ while True: #Seconde boucle infinie permettant d'utiliser la commande "break" po
     DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addArgent(UID,montant)+QUERRY_addTransaction(produit,nombre,setting.numeroBox,UID,montant,reference)) #Ajout des requetes pour la BDD
     hint("NE PAS RETIRER CARTE",4) #Avertissement sur lequel il faut lourdement insister en mode hors ligne!
     RFID_setArgent(newMontant) #Ecriture du nouveau montant
-    MENU_clear() #Nettoie l'écran
