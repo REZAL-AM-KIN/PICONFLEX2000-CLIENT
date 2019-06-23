@@ -1,6 +1,6 @@
 print("Demarrage 'setting.py'")
 class setting: #Définition des variables reliée à l'objet setting définissant les paramètres de la box. Ces paramètres sont sauvegardés et résistent au reboot
-    nomBox='' 
+    nomBox='C' 
 #Nom de la box (Données par la BDD au démarrage), il définie le rôle de la box selon la première lettre (ATTENTION: Première lettre toujours en majuscule)
     numeroBox=0 
 #Numéro de la box, permet d'identifié de façon unique les boxs (clé primaire) pour la BDD
