@@ -6,11 +6,11 @@ class setting: #Définition des variables reliée à l'objet setting définissan
 #Numéro de la box, permet d'identifié de façon unique les boxs (clé primaire) pour la BDD
     version=0
 #Version du système, permet de savoir quand une MAJ est a faire
-    rezalOn=False
+    rezalOn=True
 #Paramètre indiquand au système si la box a ping le serveur
-    rezalMode=False
+    rezalMode=True
 #Paramètre indiquand si la box est en mode hors ligne ou pas
-    rezalNet=False
+    rezalNet=True
 #Paramètre indiquant si la box à ping un réseau internet
     IP="0.0.0.0"
 #IP de la box
