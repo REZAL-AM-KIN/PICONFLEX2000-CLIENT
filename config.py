@@ -36,9 +36,9 @@ class config: #Définition des variables reliée à l'objet config définissant 
 #Case RFID où sera mis le hash du code guinche (vérifie si la carte est périmée)
     minMontant          =100        
 #Montant en centimes minimal à pouvoir mettre pendant une transaction
-    maxTransaction      =9999       
-#Montant max a pouvoir etremis sur une carte
-    maxMontant          =30000      
+    maxTransaction      =9900       
+#Montant max a pouvoir etre mis sur une carte
+    maxMontant          =15000      
 #Montant en centime maximal à pouvoir être contenu sur une carte
     menuAdmin           =["menuAdmin","resetBDD","resetLogQuerry","resetLogSQL","resetLogError"]
     menuModerateur      =["menuModerateur","githubPull","MAJGitClone"]
