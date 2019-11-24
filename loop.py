@@ -1,6 +1,6 @@
 print("Demarrage 'loop.py'")
 while True: #Seconde boucle infinie permettant d'utiliser la commande "break" pour arreter la transaction
-    if setting.rezalOn:
+    if setting.rezalOn and setting.rezalMode:
         REZAL_synchQUERRYToSQL() #Synchronisation des requêtes SQL de la box avec le serveur BDD
     RFID_waitRetireCarte() #Attente d'absence de cartes
     MENU_menuPrincipal() #Attente d'une carte et possibilité de naviguer dans les menus
@@ -8,40 +8,44 @@ while True: #Seconde boucle infinie permettant d'utiliser la commande "break" po
     DATA_setVariable("rezalOn",bool(REZAL_pingServeur())) #Ping du serveur pour s'assurer que la connection est toujours présente
     if setting.rezalOn: #Bloc de traitement des données si la box est en ligne avec le serveur
         if not(setting.rezalMode): #Le rezal est revenu sur une box en mode hors ligne
-            hint("ENTER POUR SYNCH SQL",3)
-            hint("REZAL REVENU",4) #Affichage du problème
-            if not(CLAVIER_getRFID()==10): #Une autre touche que ENTER est saisie:
+            hint("REZAL REVENU",3) #Affichage du problème
+            hint("TOUCHE POUR CONTINUER",4)
+            _touche=CLAVIER_getRFID()
+            if _touche==0: #La carte a été retirée
                 break
-            REZAL_synchQUERRYToSQL() #Synchronisation des requêtes SQL de la box avec le serveur BDD
-        hint("UID: "+str(UID),2) #Affichage UID de la carte
-        try: #Essais de récupération de l'argent de la carte de la BDD:
-            argentSQL=SQL_SELECT(QUERRY_getArgent(UID))[0][0]
-        except: #Echec (la carte (UID) est absente de la BDD):
-            hint("SYNCH CARTE BDD",4) #Affichage utilisateur de l'initialisation de la carte dans la BDD
-            argentSQL=0 #Montant nul pour la carte
-            SQL_EXECUTE(QUERRY_addCarte(UID)) #Création de la carte dans la BDD
-        if argent!=argentSQL: #Cas où les montants RFID et BDD sont différents:
-            hint("SYNCH RFID ARGENT",4) #Affichage synchronisation
-            argent=argentSQL #Synchronisation des variables
-            RFID_setArgent(argent) #Synchronisaton RFID
-        if codeCarte!=int(CRYPT_hashage(config.codeGuinche)): #Le codeGuinche est périmé:
-            hint("SYNCH RFID H CODE",4) #Affichage synchronisation
-            RFID_write(config.blockHashCodeGuinche,str(int(CRYPT_hashage(config.codeGuinche)))) #Ecriture RFID du Hash du codeGuinche sur la carte
-        if hashUID!=int(CRYPT_hashage(UID)): #Le hash de l'UID ne correspond pas au hash stocké sur la carte
-            hint("SYNCH RFID H UID",4) #Affichage synchronisation
-            RFID_write(config.blockHashUID,str(int(CRYPT_hashage(UID)))) #Ecriture du hash de l'UID sur la carte
-        if hashArgent!=int(CRYPT_hashage(argent)):
-            hint("SYNCH RFID ARGENT",4) #Affichage synchronisation
-            RFID_setArgent(argent) #Ecriture de l'argent sur la carte (Réecrit le hash de l'argent)
-        if argent<0: #Si le montant de la carte dans la BDD est inérieur à 0 (Une triche pendant un mode hors ligne a été réalisé ou une désynchronisation a été faite)
-            hint("APPELLER REZAL",3) #Le rezal doit regarder l'historique de la carte et vérifier que toute les caisses sont synchro
-            hint("DESYNCH BDD",4) #Affichage problème (Si ce message s'affiche pendant un gala c'est pas bon: soit la personne est un tricheur, soit une box fonctionne en mode hors ligne)
-            DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"DESYNCH BDD",str(UID))) #Ajout du message dans les logs
-            break #Arret de la transaction
-    else: #Bloc de traitement des données de la carte en mode hors ligne
+            else:
+                hint("",3); hint("",4) #On efface le message
+        else: #rezalMode est à True, donc on fait la synchronisation
+            hint("UID: "+str(UID),2) #Affichage UID de la carte
+            try: #Essais de récupération de l'argent de la carte de la BDD:
+                argentSQL=SQL_SELECT(QUERRY_getArgent(UID))[0][0]
+            except: #Echec (la carte (UID) est absente de la BDD):
+                hint("SYNCH CARTE BDD",4) #Affichage utilisateur de l'initialisation de la carte dans la BDD
+                argentSQL=0 #Montant nul pour la carte
+                SQL_EXECUTE(QUERRY_addCarte(UID)) #Création de la carte dans la BDD
+            if argent!=argentSQL: #Cas où les montants RFID et BDD sont différents:
+                hint("SYNCH RFID ARGENT",4) #Affichage synchronisation
+                argent=argentSQL #Synchronisation des variables
+                RFID_setArgent(argent) #Synchronisaton RFID
+            if codeCarte!=int(CRYPT_hashage(config.codeGuinche)): #Le codeGuinche est périmé:
+                hint("SYNCH RFID H CODE",4) #Affichage synchronisation
+                RFID_write(config.blockHashCodeGuinche,str(int(CRYPT_hashage(config.codeGuinche)))) #Ecriture RFID du Hash du codeGuinche sur la carte
+            if hashUID!=int(CRYPT_hashage(UID)): #Le hash de l'UID ne correspond pas au hash stocké sur la carte
+                hint("SYNCH RFID H UID",4) #Affichage synchronisation
+                RFID_write(config.blockHashUID,str(int(CRYPT_hashage(UID)))) #Ecriture du hash de l'UID sur la carte
+            if hashArgent!=int(CRYPT_hashage(argent)):
+                hint("SYNCH RFID ARGENT",4) #Affichage synchronisation
+                RFID_setArgent(argent) #Ecriture de l'argent sur la carte (Réecrit le hash de l'argent)
+            if argent<0: #Si le montant de la carte dans la BDD est inérieur à 0 (Une triche pendant un mode hors ligne a été réalisé ou une désynchronisation a été faite)
+                hint("APPELLER REZAL",3) #Le rezal doit regarder l'historique de la carte et vérifier que toute les caisses sont synchro
+                hint("DESYNCH BDD",4) #Affichage problème (Si ce message s'affiche pendant un gala c'est pas bon: soit la personne est un tricheur, soit une box fonctionne en mode hors ligne)
+                DATA_add('/home/pi/PICONFLEX2000-LOGS/LOG_QUERRY.txt',QUERRY_addLog(setting.numeroBox,setting.nomBox,"DESYNCH BDD",str(UID))) #Ajout du message dans les logs
+                break #Arret de la transaction
+    if not(setting.rezalOn) or not(setting.rezalMode): #Bloc de traitement des données de la carte en mode hors ligne ou sans réseau
         if setting.rezalMode: #Si la box ne ping plus mais est en rezalMode On
             hint("PERTE DU REZAL",4) #Affichage du problème
             REZAL_restart() #Redémarrage du système
+        #Sinon la box est en rezalMode Off, qu'elle pingue ou non
         if codeCarte!=int(CRYPT_hashage(config.codeGuinche)): #Le codeGuinche est périmé:
             hint("DESYNCH RFID H CODE",2) #Affichage désynchronisation
             if not(setting.nomBox[0]=="C"): #Si la box n'est pas une caisse:
