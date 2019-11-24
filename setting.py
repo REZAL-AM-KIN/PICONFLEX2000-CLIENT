@@ -7,11 +7,11 @@ class setting: #Définition des variables reliée à l'objet setting définissan
     version=0
 #Version du système, permet de savoir quand une MAJ est a faire
     rezalOn=True
-#Paramètre indiquand au système si la box a ping le serveur
+#Paramètre indiquand au système si la box a ping le serveur (010)
     rezalMode=True
-#Paramètre indiquand si la box est en mode hors ligne ou pas
+#Paramètre indiquand si la box est en mode hors ligne ou pas (001)
     rezalNet=True
-#Paramètre indiquant si la box à ping un réseau internet
+#Paramètre indiquant si la box à ping un réseau internet(100)
     IP="0.0.0.0"
 #IP de la box
     MAC="00:00:00:00:00"
