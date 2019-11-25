@@ -147,7 +147,12 @@ def hint(string,ligne):
     return
 
 #Si tu retire ces lignes jeune conscrit, je viendrai te voir...
-hint("PICONFLEX2000",1)
-hint("139 | 105-132",2)
-hint("102 | 56-150 | 53",3)
+#Si tu retire ces lignes jeune conscrit, je viendrai te voir...
+# hint("PICONFLEX2000",1)
+# hint("139 | 105-132",2)
+# hint("102 | 56-150 | 53",3)
+# hint("AM REZAL KIN",4)
+hint("COMMENTER C'EST PAS",1)
+hint("RETIRER",2)
+hint("REZAL 218",3)
 hint("AM REZAL KIN",4)
