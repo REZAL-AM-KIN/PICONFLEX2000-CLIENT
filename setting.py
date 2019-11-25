@@ -26,7 +26,7 @@ class setting: #Définition des variables reliée à l'objet setting définissan
 #Mot de passe du nom d'utilisateur
     connection["database"]='Guinche'
 #Nom de la BDD
-    connection["host"]="192.168.139.139"
+    connection["host"]="192.168.0.100"
 #IP du serveur BDD
     serveurNet="8.8.8.8"
 #Adresse IP DNS google qui répond au ping
