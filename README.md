@@ -28,7 +28,8 @@
 > sudo python3 setup.py install  
 > cd ../  
 > sudo rm -r SPI-Py  
-> git clone https://github.com/REZALKIN/PICONFLEX2000.git  
+> git clone https://github.com/REZALKIN/PICONFLEX2000-CLIENT.git  
+> git clone https://github.com/REZALKIN/PICONFLEX2000-FONCTIONS.git
 ## Paramétrage du script  
 ### Activation NumLock au démarrage (Permet d'utiliser le pavé numérique)  
 > sudo nano /etc/rc.local  
