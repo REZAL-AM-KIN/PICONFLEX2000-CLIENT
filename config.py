@@ -1,6 +1,6 @@
 print("Demarrage 'config.py'")
 class config: #Définition des variables reliée à l'objet config définissant les paramètres du gala (guinche)
-    codeGuinche         =3456       #Plus jeune Proms + numero gala
+    codeGuinche         =1219       #Plus jeune Proms + numero gala
 #Code du guinche (permet de différentier une carte provenant d'un guinche antérieur, a changer absolument à chaque guinche). Les hashs sont salés avec ce code
     codeAdmin           =139        #Picon KIN 217
 #Code Admin permettant d'accéder au menu admin
